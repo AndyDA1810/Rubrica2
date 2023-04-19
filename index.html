@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naruto</title>
+  <link rel="stylesheet" href="style.css"> 
+  
+</head>
+
+<body>
+
+  <nav>
+    <div class="navbar-left">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKZfi94pGR5gCaMkYcQ3ken57YCCWgnCmVKQ&amp;usqp=CAU" alt="XD">
+    </div>
+    <div class="navbar-center">
+      <select id="tarjetasSelect">
+        <option value="">Mostrar todas las tarjetas</option>
+      </select>
+    </div>
+    <div class="navbar-right">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKZfi94pGR5gCaMkYcQ3ken57YCCWgnCmVKQ&amp;usqp=CAU" alt="XD">
+    </div>
+  </nav>
+  
+
+<div class="contenedorCard">
+  <script>
+    const cardContainer = document.querySelector('.contenedorCard');
+    const select = document.querySelector('#tarjetasSelect');
+    const url ='https://api.jikan.moe/v4/anime?q=naruto&sfw';
+  
+    fetch(url).then(response => response.json())
+      .then(data => {
+        const tarjetas = data.data.slice(0, 12);
+        tarjetas.forEach((tarjeta, index) => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+          const image = document.createElement('img');
+          image.src = tarjeta.images.jpg.image_url;
+          image.alt = tarjeta.name;
+          card.appendChild(image);
+          const title = document.createElement('h2');
+          title.textContent = `Tarjeta ${index + 1}`;
+          card.appendChild(title);
+          cardContainer.appendChild(card);
+  
+          const option = document.createElement('option');
+          option.value = index;
+          option.textContent = `Mostrar tarjeta ${index + 1}`;
+          select.appendChild(option);
+
+          tarjeta.card = card;
+        });
+  
+        select.addEventListener('change', () => {
+
+    const index = select.value;
+    if (index === '') {
+
+      tarjetas.forEach(t => t.card.style.display = 'block');
+    } else {
+  
+      tarjetas.forEach(t => t.card.style.display = 'none');
+      tarjetas[index].card.style.display = 'block';
+    }
+  });
+      });
+  </script>
+</div>
+
+<footer>
+  <div class="footer-left">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKZfi94pGR5gCaMkYcQ3ken57YCCWgnCmVKQ&amp;usqp=CAU" alt="Imagen izquierda">
+  </div>
+  <div class="footer-center">
+    <p>Josttin Pérez - jperez172@cuc.ecu.co</p>
+    <p>Andrea Domínguez - Adomingu24@cuc.ecu.co</p>
+  </div>
+  <div class="footer-right">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKZfi94pGR5gCaMkYcQ3ken57YCCWgnCmVKQ&amp;usqp=CAU" alt="Imagen derecha">
+  </div>
+</footer>
+
+
+</body>
+
+</html>
